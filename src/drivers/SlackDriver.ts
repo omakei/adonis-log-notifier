@@ -1,9 +1,7 @@
 import SlackNotify from 'slack-notify'
-import AbstractDriver from '../AbscractDriver'
+import AbstractDriver from '../AbstractDriver'
 import { logNotifierConfig } from '../config/log-notifier'
 import Env from '@ioc:Adonis/Core/Env'
-
-const slack = SlackNotify(logNotifierConfig.channels.slack.webHook)
 
 export default class SlackDriver extends AbstractDriver {
   public notify(): void {

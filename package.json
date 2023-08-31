@@ -25,6 +25,7 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@adonisjs/mail": "^8.2.1",
     "slack-notify": "^2.0.6"
   },
   "devDependencies": {

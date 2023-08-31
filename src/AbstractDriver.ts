@@ -35,5 +35,5 @@ export default abstract class AbstractDriver {
   }
 
   public abstract notify(): void
-  public abstract format(): object
+  public abstract format(): string | object
 }
