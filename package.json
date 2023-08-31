@@ -24,7 +24,9 @@
     "format": "prettier --write .",
     "prepare": "husky install"
   },
-  "dependencies": {},
+  "dependencies": {
+    "slack-notify": "^2.0.6"
+  },
   "devDependencies": {
     "@adonisjs/core": "^5.8.5",
     "@adonisjs/require-ts": "^2.0.12",
