@@ -6,13 +6,15 @@ import Env from '@ioc:Adonis/Core/Env'
 
 export default class MailDriver extends AbstractDriver {
   public async notify(): Promise<void> {
-    await Mail.send((message: any) => {
-      message
-        .from(logNotifierConfig.channels.mail.from)
-        .to(logNotifierConfig.channels.mail.to)
-        .subject(logNotifierConfig.channels.mail.subject)
-        .html(this.format())
-    })
+    if (logNotifierConfig.allowedLogLevel.find((level) => this.logJSONFormat().level === level)) {
+      await Mail.send((message: any) => {
+        message
+          .from(logNotifierConfig.channels.mail.from)
+          .to(logNotifierConfig.channels.mail.to)
+          .subject(logNotifierConfig.channels.mail.subject)
+          .html(this.format())
+      })
+    }
   }
   public format(): string | object {
     return `

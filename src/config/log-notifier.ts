@@ -1,8 +1,11 @@
 import SlackDriver from '../drivers/SlackDriver'
 import Env from '@ioc:Adonis/Core/Env'
+import MailDriver from '../drivers/MailDriver'
+import LogLevel from '../enum/LogLevel'
 
 export const logNotifierConfig = {
   allowedChannels: ['slack', 'mail'],
+  allowedLogLevel: [LogLevel.ERROR, LogLevel.FATAL, LogLevel.TRACE],
   channels: {
     slack: {
       webHook: Env.get('SLACK_WEBHOOK'),
@@ -27,7 +30,7 @@ export const logNotifierConfig = {
       to: ['omakei96@gmail.com', 'forumsme6@gmail.com'],
       subject: 'Error Notification',
       driverClass: (msg: string) => {
-        return new SlackDriver(msg).notify()
+        return new MailDriver(msg).notify()
       },
     },
   },

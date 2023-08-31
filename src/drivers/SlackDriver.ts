@@ -5,7 +5,9 @@ import Env from '@ioc:Adonis/Core/Env'
 
 export default class SlackDriver extends AbstractDriver {
   public notify(): void {
-    SlackNotify(logNotifierConfig.channels.slack.webHook).send(this.format() as unknown as string)
+    if (logNotifierConfig.allowedLogLevel.find((level) => this.logJSONFormat().level === level)) {
+      SlackNotify(logNotifierConfig.channels.slack.webHook).send(this.format() as unknown as string)
+    }
   }
   public format(): object {
     return {
