@@ -1,5 +1,5 @@
 import AbstractDriver from '../AbstractDriver'
-import { logNotifierConfig } from '../config/log-notifier'
+import { logNotifierConfig } from '../config/lognotifier'
 //@ts-ignore
 import Mail from '@ioc:Adonis/Addons/Mail'
 import Env from '@ioc:Adonis/Core/Env'

@@ -1,5 +1,7 @@
+import { LogNotifierContract } from '@ioc:Omakei/LogNotifier'
+
 declare module '@ioc:Adonis/Core/Application' {
   export interface ContainerBindings {
-    // declare your container bindings here
+    'Omakei/LogNotifier': LogNotifierContract
   }
 }

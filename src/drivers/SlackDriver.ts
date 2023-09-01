@@ -1,6 +1,6 @@
 import SlackNotify from 'slack-notify'
 import AbstractDriver from '../AbstractDriver'
-import { logNotifierConfig } from '../config/log-notifier'
+import { logNotifierConfig } from '../config/lognotifier'
 import Env from '@ioc:Adonis/Core/Env'
 
 export default class SlackDriver extends AbstractDriver {

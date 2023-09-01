@@ -1,4 +1,4 @@
-import { LogStructure } from './Interfaces/DriverInterface'
+import { LogStructure } from './Interfaces/LogStructureInterface'
 
 export default abstract class AbstractDriver {
   public message: string

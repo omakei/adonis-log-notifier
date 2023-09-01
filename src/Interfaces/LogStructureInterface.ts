@@ -1,8 +1,3 @@
-export default interface DriverInterface {
-  notify(): object
-  format(): object
-}
-
 export interface BaseLogStructure {
   level: number
   time: number
