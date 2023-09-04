@@ -1,11 +1,12 @@
 import { ApplicationContract } from '@ioc:Adonis/Core/Application'
-import LogNotifier from '../src/LogNotifier'
+import { LogNotifier } from '../src/LogNotifier'
 export default class LogNotifierProvider {
+  public static needsApplication = true
   constructor(protected app: ApplicationContract) {}
 
-  public async register() {
+  public register() {
     this.app.container.singleton('Omakei/LogNotifier', () => {
-      return new LogNotifier()
+      return new LogNotifier(this.app)
     })
   }
 

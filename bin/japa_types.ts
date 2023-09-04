@@ -1,8 +1,9 @@
 import '@japa/runner'
+import { ApplicationContract } from '@ioc:Adonis/Core/Application'
 
 declare module '@japa/runner' {
   interface TestContext {
-    // notify TypeScript about custom context properties
+    app: ApplicationContract
   }
 
   interface Test<TestData> {

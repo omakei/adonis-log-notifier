@@ -25,11 +25,12 @@
     "prepare": "husky install"
   },
   "dependencies": {
-    "@adonisjs/mail": "^8.2.1",
+    "@poppinss/dev-utils": "^2.0.3",
     "slack-notify": "^2.0.6"
   },
   "devDependencies": {
     "@adonisjs/core": "^5.8.5",
+    "@adonisjs/mail": "^8.2.1",
     "@adonisjs/require-ts": "^2.0.12",
     "@adonisjs/sink": "^5.4.0",
     "@commitlint/cli": "^17.0.3",
@@ -53,7 +54,7 @@
     "prettier": "^2.7.1",
     "typescript": "^4.7.3"
   },
-  "main": "build/providers/LogNotifierProvider",
+  "main": "./build/providers/LogNotifierProvider.js",
   "files": [
     "build/adonis-typings",
     "build/commands",
@@ -70,7 +71,12 @@
   "adonisjs": {
     "instructionsMd": "./build/instructions.md",
     "preloads": [],
-    "templates": {},
+    "templates": {
+      "config": {
+        "src": "log_notifier.txt",
+        "dest": "log_notifier.ts"
+      }
+    },
     "types": "@omakei/log-notifier",
     "providers": [
       "@omakei/log-notifier"

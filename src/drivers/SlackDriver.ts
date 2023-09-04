@@ -1,22 +1,25 @@
+import { inject } from '@adonisjs/core/build/standalone'
 import SlackNotify from 'slack-notify'
-import AbstractDriver from '../AbstractDriver'
-import { logNotifierConfig } from '../config/lognotifier'
-import Env from '@ioc:Adonis/Core/Env'
+import { AbstractDriver } from '../AbstractDriver'
 
+@inject()
 export default class SlackDriver extends AbstractDriver {
+  private config = this.app.container
+    .resolveBinding('Adonis/Core/Config')
+    .get('log_notifier.logNotifierConfig')
   public notify(): void {
-    if (logNotifierConfig.allowedLogLevel.find((level) => this.logJSONFormat().level === level)) {
-      SlackNotify(logNotifierConfig.channels.slack.webHook).send(this.format() as unknown as string)
+    if (this.config.allowedLogLevel.find((level: number) => this.logJSONFormat().level === level)) {
+      SlackNotify(this.config.channels.slack.webHook).send(this.format() as unknown as string)
     }
   }
   public format(): object {
     return {
-      channel: '#' + logNotifierConfig.channels.slack.channel,
-      icon_url: logNotifierConfig.channels.slack.iconUrl,
+      channel: '#' + this.config.channels.slack.channel,
+      icon_url: this.config.channels.slack.iconUrl,
       text: `:rotating_light: *${this.logLevelLabel(
         this.logJSONFormat().level as number
-      )} ALERT FROM ${Env.get('APP_NAME')}* :rotating_light:`,
-      username: logNotifierConfig.channels.slack.username,
+      )} ALERT FROM ${this.app.env.get('APP_NAME')}* :rotating_light:`,
+      username: this.config.channels.slack.username,
       attachments: [
         {
           color: this.logLevelColor(this.logJSONFormat().level as number),
@@ -43,7 +46,7 @@ export default class SlackDriver extends AbstractDriver {
               title: `${this.logLevelLabel(this.logJSONFormat().level as number)} MESSAGE`,
               value: this.logJSONFormat().msg,
             },
-            { title: 'RAW ERROR', value: this.message },
+            { title: 'RAW ERROR', value: this.msg },
           ],
         },
       ],

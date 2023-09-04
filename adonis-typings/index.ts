@@ -1,2 +1,2 @@
 /// <reference path="./container.ts" />
-/// <reference path="./lognotifier.ts" />
+/// <reference path="./log_notifier.ts" />

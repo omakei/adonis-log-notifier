@@ -1,17 +1,20 @@
-import AbstractDriver from '../AbstractDriver'
-import { logNotifierConfig } from '../config/lognotifier'
+import { AbstractDriver } from '../AbstractDriver'
 //@ts-ignore
 import Mail from '@ioc:Adonis/Addons/Mail'
-import Env from '@ioc:Adonis/Core/Env'
+import { inject } from '@adonisjs/core/build/standalone'
 
+@inject()
 export default class MailDriver extends AbstractDriver {
+  private config = this.app.container
+    .resolveBinding('Adonis/Core/Config')
+    .get('log_notifier.logNotifierConfig')
   public async notify(): Promise<void> {
-    if (logNotifierConfig.allowedLogLevel.find((level) => this.logJSONFormat().level === level)) {
+    if (this.config.allowedLogLevel.find((level: number) => this.logJSONFormat().level === level)) {
       await Mail.send((message: any) => {
         message
-          .from(logNotifierConfig.channels.mail.from)
-          .to(logNotifierConfig.channels.mail.to)
-          .subject(logNotifierConfig.channels.mail.subject)
+          .from(this.config.channels.mail.from)
+          .to(this.config.channels.mail.to)
+          .subject(this.config.channels.mail.subject)
           .html(this.format())
       })
     }
@@ -24,7 +27,7 @@ export default class MailDriver extends AbstractDriver {
       APPLICATION NAME
     </td>
     <td style="padding:10px;">
-     ${Env.get('APP_NAME')}
+     ${this.app.env.get('APP_NAME')}
     </td>
   </tr>
   <tr>
@@ -72,7 +75,7 @@ export default class MailDriver extends AbstractDriver {
       RAW ERROR
     </td>
     <td style="padding:10px;">
-     ${this.message}
+     ${this.msg}
     </td>
   </tr>
 </table>

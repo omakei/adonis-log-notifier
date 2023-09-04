@@ -1,10 +1,8 @@
 import { LogStructure } from './Interfaces/LogStructureInterface'
+import { ApplicationContract } from '@ioc:Adonis/Core/Application'
 
-export default abstract class AbstractDriver {
-  public message: string
-  constructor(msg: string) {
-    this.message = msg
-  }
+export abstract class AbstractDriver {
+  constructor(public app: ApplicationContract, public msg: string) {}
 
   public logLevelLabel(level: number): string {
     return (
@@ -31,7 +29,7 @@ export default abstract class AbstractDriver {
   }
 
   public logJSONFormat(): LogStructure {
-    return JSON.parse(this.message)
+    return JSON.parse(this.msg)
   }
 
   public abstract notify(): void

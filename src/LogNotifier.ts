@@ -1,10 +1,17 @@
-import { logNotifierConfig } from './config/lognotifier'
+import { ApplicationContract } from '@ioc:Adonis/Core/Application'
 
-export default class LogNotifier {
+export class LogNotifier {
+  private config
+  constructor(public app: ApplicationContract) {
+    this.config = this.app.container
+      .resolveBinding('Adonis/Core/Config')
+      .get('log_notifier.logNotifierConfig')
+  }
+
   public async write(msg: string): Promise<void> {
-    logNotifierConfig.allowedChannels.map((channel) => {
-      //@ts-ignore
-      Reflect.apply(logNotifierConfig.channels[channel]['driverClass'], '', [msg])
+    console.log(this.config)
+    this.config.allowedChannels.map((channel: string) => {
+      Reflect.apply(this.config.channels[channel]['driverClass'], '', [this.app, msg])
     })
     console.log(msg)
   }
