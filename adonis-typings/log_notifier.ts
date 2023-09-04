@@ -1,11 +1,12 @@
 declare module '@ioc:Omakei/LogNotifier' {
+  import { ApplicationContract } from '@ioc:Adonis/Core/Application'
   export interface LogNotifierContract {
     write(msg: string): Promise<void>
   }
 
   export interface LogNotifierConfig {
-    allowedChannels: string[]
-    allowedLogLevel: Array<LogLevel[keyof LogLevel]>
+    allowedChannels: Array<(typeof LogChannels)[keyof typeof LogChannels]>
+    allowedLogLevel: Array<(typeof LogLevel)[keyof typeof LogLevel]>
     channels: {
       slack: {
         webHook: string
@@ -13,12 +14,11 @@ declare module '@ioc:Omakei/LogNotifier' {
         iconEmoji: string
         iconUrl: string
         username: string
-        driverClass: (msg: string) => AbstractDriverContract
       }
       mail: {
         driver: string
         host: string
-        port: string
+        port: number
         auth: {
           type: string
           user: string
@@ -27,18 +27,19 @@ declare module '@ioc:Omakei/LogNotifier' {
         from: string
         to: string[]
         subject: string
-        driverClass: (msg: string) => AbstractDriverContract
       }
     }
   }
 
   export interface AbstractDriverContract {
-    message: string
-    logLevelLabel(level: number): string
-    logLevelColor(level: number): string
-    logJSONFormat(): LogStructureContract
-    notify(): void
-    format(): string | object
+    new (app: ApplicationContract, msg: string): {
+      message: string
+      logLevelLabel(level: number): string
+      logLevelColor(level: number): string
+      logJSONFormat(): LogStructureContract
+      notify(): void
+      format(): string | object
+    }
   }
 
   export type BaseLogStructureContract = {
@@ -63,6 +64,14 @@ declare module '@ioc:Omakei/LogNotifier' {
     ERROR = 50,
     FATAL = 60,
   }
+
+  export enum LogChannels {
+    SLACK = 'slack',
+    MAIL = 'mail',
+  }
+
+  export const SlackDriver: AbstractDriverContract
+  export const MailDriver: AbstractDriverContract
 
   const LogNotifier: LogNotifierContract
 

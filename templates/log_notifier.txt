@@ -1,11 +1,8 @@
-import SlackDriver from '@omakei/log-notifier/build/src/drivers/SlackDriver'
 import Env from '@ioc:Adonis/Core/Env'
-import MailDriver from '@omakei/log-notifier/build/src/drivers/MailDriver'
-import { LogLevel } from '@ioc:Omakei/LogNotifier'
-import { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import { LogLevel, LogChannels, LogNotifierConfig } from '@ioc:Omakei/LogNotifier'
 
-export const logNotifierConfig = {
-  allowedChannels: ['slack', 'mail'],
+export const logNotifierConfig: LogNotifierConfig = {
+  allowedChannels: [LogChannels.SLACK, LogChannels.MAIL],
   allowedLogLevel: [LogLevel.ERROR, LogLevel.FATAL, LogLevel.TRACE],
   channels: {
     slack: {
@@ -14,9 +11,6 @@ export const logNotifierConfig = {
       iconEmoji: Env.get('SLACK_ICON_EMOJI'),
       iconUrl: Env.get('SLACK_ICON_URL'),
       username: Env.get('SLACK_USERNAME'),
-      driverClass: (app: ApplicationContract, msg: string) => {
-        return new SlackDriver(app, msg).notify()
-      },
     },
     mail: {
       driver: 'smtp',
@@ -30,9 +24,6 @@ export const logNotifierConfig = {
       from: Env.get('SMTP_FROM'),
       to: ['omakei96@gmail.com', 'forumsme6@gmail.com'],
       subject: 'Error Notification',
-      driverClass: (app: ApplicationContract, msg: string) => {
-        return new MailDriver(app, msg).notify()
-      },
     },
   },
 }

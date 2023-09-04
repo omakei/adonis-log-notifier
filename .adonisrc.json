@@ -1,0 +1,7 @@
+{
+  "providers": [
+    "@adonisjs/core",
+    "@adonisjs/mail",
+    "./providers/LogNotifierProvider"
+  ]
+}

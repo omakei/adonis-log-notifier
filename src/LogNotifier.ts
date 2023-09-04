@@ -1,4 +1,5 @@
 import { ApplicationContract } from '@ioc:Adonis/Core/Application'
+import { DriverFactory } from './DriverFactory'
 
 export class LogNotifier {
   private config
@@ -9,9 +10,8 @@ export class LogNotifier {
   }
 
   public async write(msg: string): Promise<void> {
-    console.log(this.config)
     this.config.allowedChannels.map((channel: string) => {
-      Reflect.apply(this.config.channels[channel]['driverClass'], '', [this.app, msg])
+      DriverFactory.creact(channel, this.app, msg)
     })
     console.log(msg)
   }

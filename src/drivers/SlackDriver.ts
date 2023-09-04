@@ -1,8 +1,6 @@
-import { inject } from '@adonisjs/core/build/standalone'
 import SlackNotify from 'slack-notify'
 import { AbstractDriver } from '../AbstractDriver'
 
-@inject()
 export default class SlackDriver extends AbstractDriver {
   private config = this.app.container
     .resolveBinding('Adonis/Core/Config')

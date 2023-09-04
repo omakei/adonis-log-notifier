@@ -1,9 +1,7 @@
 import { AbstractDriver } from '../AbstractDriver'
 //@ts-ignore
 import Mail from '@ioc:Adonis/Addons/Mail'
-import { inject } from '@adonisjs/core/build/standalone'
 
-@inject()
 export default class MailDriver extends AbstractDriver {
   private config = this.app.container
     .resolveBinding('Adonis/Core/Config')

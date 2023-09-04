@@ -6,6 +6,10 @@ import { Application } from '@adonisjs/core/build/standalone'
 // import 'reflect-metadata'
 import { Filesystem } from '@poppinss/dev-utils'
 import { resolve } from 'node:path'
+import { expect } from '@japa/expect'
+import { createAppConfig, createLogNotifierConfig, createMailConfig } from './config'
+//@ts-ignore
+import { MessageContract } from '@ioc:Adonis/Addons/Mail'
 
 /*
 |--------------------------------------------------------------------------
@@ -27,26 +31,19 @@ configure({
   ...processCliArgs(process.argv.slice(2)),
   ...{
     files: ['tests/**/*.spec.ts'],
-    plugins: [assert(), runFailedTests()],
+    plugins: [assert(), runFailedTests(), expect()],
     reporters: [specReporter()],
     importer: (filePath) => import(filePath),
     forceExit: true,
     setup: [
       async () => {
         await fs.add('.env', '')
-        await fs.add(
-          'config/app.ts',
-          `
-            export const profiler = { enabled: true }
-            export const appKey = 'averylong32charsrandomsecretkey',
-            export const http = {
-              cookie: {},
-              trustProxy: () => true,
-            }
-          `
-        )
+
+        await createAppConfig(fs)
+        await createLogNotifierConfig(fs)
+        await createMailConfig(fs)
         const app = new Application(fs.basePath, 'test', {
-          providers: ['@adonisjs/core', '../../providers/LogNotifierProvider'],
+          providers: ['@adonisjs/core', '@adonisjs/mail', '../../providers/LogNotifierProvider'],
         })
 
         await app.setup()
@@ -63,6 +60,15 @@ configure({
 })
 
 TestContext.getter('app', () => require('@adonisjs/core/build/services/app.js').default)
+TestContext.macro('getMailer', async (subject = 'Test', target = 'test@example.com') => {
+  //@ts-ignore
+  const { BaseMailer } = await import('@ioc:Adonis/Addons/Mail')
+  return new (class extends BaseMailer {
+    public prepare(message: MessageContract) {
+      return message.subject(subject).from('test@test.com').to(target)
+    }
+  })()
+})
 
 /*
 |--------------------------------------------------------------------------
