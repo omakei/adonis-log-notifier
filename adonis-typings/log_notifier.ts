@@ -5,8 +5,8 @@ declare module '@ioc:Omakei/LogNotifier' {
   }
 
   export interface LogNotifierConfig {
-    allowedChannels: Array<(typeof LogChannels)[keyof typeof LogChannels]>
-    allowedLogLevel: Array<(typeof LogLevel)[keyof typeof LogLevel]>
+    allowedChannels: Array<LogChannels>
+    allowedLogLevel: Array<LogLevel>
     channels: {
       slack: {
         webHook: string
@@ -56,19 +56,9 @@ declare module '@ioc:Omakei/LogNotifier' {
 
   export type LogStructureContract = BaseLogStructureContract | GenericLogStructureContract
 
-  export enum LogLevel {
-    TRACE = 10,
-    DEBUG = 20,
-    INFO = 30,
-    WARNING = 40,
-    ERROR = 50,
-    FATAL = 60,
-  }
+  export type LogLevel = 10 | 20 | 30 | 40 | 50 | 60
 
-  export enum LogChannels {
-    SLACK = 'slack',
-    MAIL = 'mail',
-  }
+  export type LogChannels = 'slack' | 'mail'
 
   export const SlackDriver: AbstractDriverContract
   export const MailDriver: AbstractDriverContract

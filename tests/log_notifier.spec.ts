@@ -9,8 +9,14 @@ test.group('LogNotifier', (group) => {
   test('can write logs to log drivers', ({ expect, app }) => {
     const logSpy = sinon.spy(global.console, 'log')
     const notifier = new LogNotifier(app)
-    notifier.write('omakei is grate.')
+    notifier.write(
+      '{"level":30,"time":1693915157713,"pid":18184,"hostname":"Omakei","name":"test-app","username":"virk","password":"secret","msg":"omakei is grate."}'
+    )
 
-    expect(logSpy.withArgs('omakei is grate.').calledOnce).toBe(true)
+    expect(
+      logSpy.withArgs(
+        `{"level":30,"time":1693915157713,"pid":18184,"hostname":"Omakei","name":"test-app","username":"virk","password":"secret","msg":"omakei is grate."}`
+      ).calledOnce
+    ).toBe(true)
   })
 })

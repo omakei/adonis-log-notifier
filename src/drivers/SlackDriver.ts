@@ -7,8 +7,10 @@ export default class SlackDriver extends AbstractDriver {
     .get('log_notifier.logNotifierConfig')
   public notify(): void {
     if (this.config.allowedLogLevel.find((level: number) => this.logJSONFormat().level === level)) {
+      console.log('omakei anatuma slack.')
       SlackNotify(this.config.channels.slack.webHook).send(this.format() as unknown as string)
     }
+    console.log('omakei haja send notifiation.')
   }
   public format(): object {
     return {
@@ -16,14 +18,18 @@ export default class SlackDriver extends AbstractDriver {
       icon_url: this.config.channels.slack.iconUrl,
       text: `:rotating_light: *${this.logLevelLabel(
         this.logJSONFormat().level as number
-      )} ALERT FROM ${this.app.env.get('APP_NAME')}* :rotating_light:`,
+      )} ALERT FROM ${this.app.env.get('APP_NAME').toUpperCase()}* :rotating_light:`,
       username: this.config.channels.slack.username,
       attachments: [
         {
           color: this.logLevelColor(this.logJSONFormat().level as number),
           fallback: this.logJSONFormat().msg,
           fields: [
-            { title: 'APPLICATION NAME', value: process.env.APP_NAME, short: true },
+            {
+              title: 'APPLICATION NAME',
+              value: this.app.env.get('APP_NAME').toUpperCase(),
+              short: true,
+            },
             {
               title: 'STATUS',
               value: this.logLevelLabel(this.logJSONFormat().level as number),
@@ -37,7 +43,7 @@ export default class SlackDriver extends AbstractDriver {
             { title: 'HOST NAME', value: this.logJSONFormat().hostname, short: true },
             {
               title: 'TIMESTAMP',
-              value: new Date((this.logJSONFormat().time as number) * 1000).toISOString(),
+              value: new Date((this.logJSONFormat().time as number) * 1000).toUTCString(),
               short: true,
             },
             {

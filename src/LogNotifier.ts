@@ -11,8 +11,8 @@ export class LogNotifier {
 
   public async write(msg: string): Promise<void> {
     this.config.allowedChannels.map((channel: string) => {
-      DriverFactory.creact(channel, this.app, msg)
+      DriverFactory.creact(channel, this.app, msg).notify()
     })
-    console.log(msg)
+    console.log(msg, 'This added from log notifier.')
   }
 }

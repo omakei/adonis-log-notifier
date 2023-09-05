@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "@poppinss/dev-utils": "^2.0.3",
-    "sinon": "^15.2.0",
     "slack-notify": "^2.0.6"
   },
    "peerDependencies": {
@@ -55,6 +54,7 @@
     "@types/sinon": "^10.0.16",
     "copyfiles": "^2.4.1",
     "del-cli": "^4.0.1",
+    "sinon": "^15.2.0",
     "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-adonis": "^2.1.0",

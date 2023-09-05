@@ -1,9 +1,9 @@
 import Env from '@ioc:Adonis/Core/Env'
-import { LogLevel, LogChannels, LogNotifierConfig } from '@ioc:Omakei/LogNotifier'
+import { LogNotifierConfig } from '@ioc:Omakei/LogNotifier'
 
 export const logNotifierConfig: LogNotifierConfig = {
-  allowedChannels: [LogChannels.SLACK, LogChannels.MAIL],
-  allowedLogLevel: [LogLevel.ERROR, LogLevel.FATAL, LogLevel.TRACE],
+  allowedChannels: ['slack', 'mail'],
+  allowedLogLevel: [10, 20, 30],
   channels: {
     slack: {
       webHook: Env.get('SLACK_WEBHOOK'),
@@ -15,7 +15,7 @@ export const logNotifierConfig: LogNotifierConfig = {
     mail: {
       driver: 'smtp',
       host: Env.get('SMTP_HOST') as string,
-      port: Env.get('SMTP_PORT') as string,
+      port: Env.get('SMTP_PORT') as number,
       auth: {
         type: 'login',
         user: Env.get('SMTP_USERNAME'),
