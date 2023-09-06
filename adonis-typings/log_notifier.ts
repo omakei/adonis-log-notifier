@@ -11,19 +11,10 @@ declare module '@ioc:Omakei/LogNotifier' {
       slack: {
         webHook: string
         channel: string
-        iconEmoji: string
         iconUrl: string
         username: string
       }
       mail: {
-        driver: string
-        host: string
-        port: number
-        auth: {
-          type: string
-          user: string
-          pass: string
-        }
         from: string
         to: string[]
         subject: string

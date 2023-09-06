@@ -7,8 +7,9 @@ test.group('LogNotifier', (group) => {
     return () => sinon.restore()
   })
   test('can write logs to log drivers', ({ expect, app }) => {
-    const logSpy = sinon.spy(global.console, 'log')
+    const logSpy = sinon.spy(LogNotifier.prototype, 'write')
     const notifier = new LogNotifier(app)
+
     notifier.write(
       '{"level":30,"time":1693915157713,"pid":18184,"hostname":"Omakei","name":"test-app","username":"virk","password":"secret","msg":"omakei is grate."}'
     )

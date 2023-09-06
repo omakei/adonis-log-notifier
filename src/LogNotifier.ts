@@ -13,6 +13,5 @@ export class LogNotifier {
     this.config.allowedChannels.map((channel: string) => {
       DriverFactory.creact(channel, this.app, msg).notify()
     })
-    console.log(msg, 'This added from log notifier.')
   }
 }

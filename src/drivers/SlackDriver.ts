@@ -1,16 +1,21 @@
 import SlackNotify from 'slack-notify'
 import { AbstractDriver } from '../AbstractDriver'
+import { LogNotifierSlackException } from '../Exceptions/LogNotifierSlackException'
 
 export default class SlackDriver extends AbstractDriver {
   private config = this.app.container
     .resolveBinding('Adonis/Core/Config')
     .get('log_notifier.logNotifierConfig')
-  public notify(): void {
+  public async notify(): Promise<void> {
     if (this.config.allowedLogLevel.find((level: number) => this.logJSONFormat().level === level)) {
-      console.log('omakei anatuma slack.')
-      SlackNotify(this.config.channels.slack.webHook).send(this.format() as unknown as string)
+      try {
+        await SlackNotify(this.config.channels.slack.webHook).send(
+          this.format() as unknown as string
+        )
+      } catch (error) {
+        throw LogNotifierSlackException.invoke()
+      }
     }
-    console.log('omakei haja send notifiation.')
   }
   public format(): object {
     return {

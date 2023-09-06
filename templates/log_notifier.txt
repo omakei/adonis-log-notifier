@@ -8,20 +8,11 @@ export const logNotifierConfig: LogNotifierConfig = {
     slack: {
       webHook: Env.get('SLACK_WEBHOOK'),
       channel: Env.get('SLACK_CHANNEL'),
-      iconEmoji: Env.get('SLACK_ICON_EMOJI'),
       iconUrl: Env.get('SLACK_ICON_URL'),
       username: Env.get('SLACK_USERNAME'),
     },
     mail: {
-      driver: 'smtp',
-      host: Env.get('SMTP_HOST') as string,
-      port: Env.get('SMTP_PORT') as number,
-      auth: {
-        type: 'login',
-        user: Env.get('SMTP_USERNAME'),
-        pass: Env.get('SMTP_PASSWORD'),
-      },
-      from: Env.get('SMTP_FROM'),
+      from: Env.get('SMTP_FROM', 'hello@example.com'),
       to: ['omakei96@gmail.com', 'forumsme6@gmail.com'],
       subject: 'Error Notification',
     },

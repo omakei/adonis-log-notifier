@@ -1,48 +1,129 @@
 
 <div align="center">
-  <img src=".github/banner.png" width="1200px">
+  <img src=".github/log-notifier.png" width="1200px">
 </div>
 
 
 <div align="center">
-  <h2><b>Adonis Package Boilerplate</b></h2>
-  <p>A easy way to create AdonisJS packages</p>
+  <h2><b>Log Notifier</b></h2>
+  <p>Streamline log management. Send application logs to email or Slack effortlessly.</p>
 </div>
 
-## **Usage**
+<div align="center">
 
-1. Press the "Use this template" button at the top of this page to create a new repository with the contents of this template.
-2. Install the required dependencies using your preferred package manager
-```bash
-npm install
-yarn install
-pnpm install
+[![npm-image]][npm-url] [![license-image]][license-url] [![typescript-image]][typescript-url]
+
+</div>
+
+
+## **Pre-requisites**
+The `@omakei/log-notifier` package requires `@adonisjs/core >= 5.8.5` with `@adonisjs/mail>= 8.2.1`
+
+## **Installation**
+
+Make sure to install and configure `@adonisjs/mail` beforehand if you are using mail to receive log notification, by running the following commands:
+
+```ts
+npm i @adonisjs/mail
+
+# or
+
+yarn add @adonisjs/mail
+
+
+node ace configure @adonisjs/mail
+
 ```
-3. Run the configuration script using your preferred package manager
-```bash
-npm run configure
-yarn configure
-pnpm configure
+
+Install the package from the npm registry as follows.
+
 ```
-## **Folder Structure**
+npm i @omakei/log-notifier
 
-### **adonis-typings**
-In this folder is where the types of your project will stay for example the ambient module for custom name space of your classes.
+# or
 
-### **bin**
-In this folder is where the binaries of your package will stay.
+yarn add @omakei/log-notifier
 
-### **commands**
-In this folder is where the command classes of your package will stay.
+```
 
-### **providers**
-In this folder is where the service provider classes of your package will stay.
+Next, configure the package by running the following ace command.
 
-### **src**
-In this folder is where the source code of your package will stay.
+```
+node ace configure @omakei/log-notifier
 
-### **templates**
-In this folder is where the source code of your package will stay.
+```
 
-#### **instructions**
-In this file is where the instructions for your package will stay.
+After that, add this to your `config/app.ts` in the logger configuration section. 
+```ts
+export const logger: LoggerConfig = {
+  //Add this property
+  stream: {
+    write: (msg: string) => {
+      Application.container.resolveBinding('Omakei/LogNotifier').write(msg)
+      console.log(msg)
+    },
+  },
+}
+```
+
+Open the `env.ts` file and define validate the environment 
+variables based upon the drivers you are using
+
+### Variables for the log notifier package
+
+```ts
+
+SLACK_WEBHOOK: Env.schema.string()
+SLACK_CHANNEL: Env.schema.string()
+SLACK_ICON_URL: Env.schema.string()
+SLACK_USERNAME: Env.schema.string()
+SMTP_FROM: Env.schema.string()
+
+```
+Then add thier value to `.env` file.
+```ts
+SLACK_WEBHOOK=
+SLACK_CHANNEL=
+SLACK_ICON_EMOJI=
+SLACK_ICON_URL=
+SLACK_USERNAME=
+SMTP_FROM=
+
+```
+Now you can run your application and start recieve log to the your prefired channel in the `config/log_notifier.ts` file.
+## Testing
+
+```bash
+npm run test
+```
+
+
+## Changelog
+
+Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+
+## Contributing
+
+Please see [CONTRIBUTING](https://github.com/omakei/.github/blob/main/CONTRIBUTING.md) for details.
+
+## Security Vulnerabilities
+
+Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+
+## Credits
+
+- [omakei](https://github.com/omakei)
+- [All Contributors](../../contributors)
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+[npm-image]: https://img.shields.io/npm/v/@omakei/log-notifier.svg?style=for-the-badge&logo=npm
+[npm-url]: https://npmjs.org/package/@omakei/log-notifier "npm"
+
+[license-image]: https://img.shields.io/npm/l/@omakei/log-notifier?color=blueviolet&style=for-the-badge
+[license-url]: LICENSE.md "license"
+
+[typescript-image]: https://img.shields.io/badge/Typescript-294E80.svg?style=for-the-badge&logo=typescript
+[typescript-url]:  "typescript"
