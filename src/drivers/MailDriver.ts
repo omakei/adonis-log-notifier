@@ -2,17 +2,16 @@ import { AbstractDriver } from '../AbstractDriver'
 import { LogNotifierMailException } from '../Exceptions/LogNotifierMailException'
 
 export default class MailDriver extends AbstractDriver {
-  private config = this.app.container
-    .resolveBinding('Adonis/Core/Config')
-    .get('log_notifier.logNotifierConfig')
   public async notify(): Promise<void> {
-    if (this.config.allowedLogLevel.find((level: number) => this.logJSONFormat().level === level)) {
+    if (
+      this.getConfig().allowedLogLevel.find((level: number) => this.logJSONFormat().level === level)
+    ) {
       try {
         await this.app.container.resolveBinding('Adonis/Addons/Mail').send((message: any) => {
           message
-            .from(this.config.channels.mail.from)
-            .to(this.config.channels.mail.to)
-            .subject(this.config.channels.mail.subject)
+            .from(this.getConfig().channels.mail.from)
+            .to(this.getConfig().channels.mail.to)
+            .subject(this.getConfig().channels.mail.subject)
             .html(this.format())
         })
       } catch (error) {

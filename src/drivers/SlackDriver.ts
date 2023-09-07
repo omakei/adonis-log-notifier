@@ -3,28 +3,27 @@ import { AbstractDriver } from '../AbstractDriver'
 import { LogNotifierSlackException } from '../Exceptions/LogNotifierSlackException'
 
 export default class SlackDriver extends AbstractDriver {
-  private config = this.app.container
-    .resolveBinding('Adonis/Core/Config')
-    .get('log_notifier.logNotifierConfig')
   public async notify(): Promise<void> {
-    if (this.config.allowedLogLevel.find((level: number) => this.logJSONFormat().level === level)) {
+    if (
+      this.getConfig().allowedLogLevel.find((level: number) => this.logJSONFormat().level === level)
+    ) {
       try {
-        await SlackNotify(this.config.channels.slack.webHook).send(
+        await SlackNotify(this.getConfig().channels.slack.webHook).send(
           this.format() as unknown as string
         )
       } catch (error) {
-        throw LogNotifierSlackException.invoke()
+        throw LogNotifierSlackException.invoke(error.input, error.code)
       }
     }
   }
   public format(): object {
     return {
-      channel: '#' + this.config.channels.slack.channel,
-      icon_url: this.config.channels.slack.iconUrl,
+      channel: '#' + this.getConfig().channels.slack.channel,
+      icon_url: this.getConfig().channels.slack.iconUrl,
       text: `:rotating_light: *${this.logLevelLabel(
         this.logJSONFormat().level as number
       )} ALERT FROM ${this.app.env.get('APP_NAME').toUpperCase()}* :rotating_light:`,
-      username: this.config.channels.slack.username,
+      username: this.getConfig().channels.slack.username,
       attachments: [
         {
           color: this.logLevelColor(this.logJSONFormat().level as number),

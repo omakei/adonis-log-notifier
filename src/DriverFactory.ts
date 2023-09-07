@@ -4,7 +4,15 @@ import SlackDriver from './drivers/SlackDriver'
 import { AbstractDriver } from './AbstractDriver'
 
 export class DriverFactory {
-  public static creact(type: string, app: ApplicationContract, msg: string): AbstractDriver {
+  /**
+   * Create instance of allowed notification channels
+   *
+   * @param type string
+   * @param app ApplicationContract
+   * @param msg string
+   * @returns AbstractDriver
+   */
+  public static create(type: string, app: ApplicationContract, msg: string): AbstractDriver {
     if (type === 'mail') {
       return new MailDriver(app, msg)
     }

@@ -1,8 +1,11 @@
+import { ManagerConfigValidator } from '@poppinss/utils'
 import { LogStructure } from './Interfaces/LogStructureInterface'
 import { ApplicationContract } from '@ioc:Adonis/Core/Application'
 
 export abstract class AbstractDriver {
-  constructor(public app: ApplicationContract, public msg: string) {}
+  constructor(public app: ApplicationContract, public msg: string) {
+    this.validateConfig()
+  }
 
   public logLevelLabel(level: number): string {
     return (
@@ -30,6 +33,23 @@ export abstract class AbstractDriver {
 
   public logJSONFormat(): LogStructure {
     return JSON.parse(this.msg)
+  }
+
+  public validateConfig() {
+    const validator = new ManagerConfigValidator(
+      this.getConfig(),
+      'log-notifier',
+      'config/log_notifier'
+    )
+    validator.validateDefault('allowedChannels')
+    validator.validateDefault('allowedLogLevel')
+    validator.validateDefault('channels')
+  }
+
+  public getConfig() {
+    return this.app.container
+      .resolveBinding('Adonis/Core/Config')
+      .get('log_notifier.logNotifierConfig')
   }
 
   public abstract notify(): void

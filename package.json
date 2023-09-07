@@ -1,12 +1,12 @@
 {
   "name": "@omakei/log-notifier",
   "version": "1.0.0",
-  "description": "A template for AdonisJS packages",
+  "description": "Streamline log management. Send application logs to email or Slack effortlessly.",
   "keywords": [
     "typescript",
     "adonisjs",
-    "package",
-    "template"
+    "email notification",
+    "slack notification"
   ],
   "license": "MIT",
   "scripts": {

@@ -3,18 +3,18 @@ import { LogNotifierConfig } from '@ioc:Omakei/LogNotifier'
 
 export const logNotifierConfig: LogNotifierConfig = {
   allowedChannels: ['slack', 'mail'],
-  allowedLogLevel: [10, 20, 30],
+  allowedLogLevel: [50],
   channels: {
     slack: {
       webHook: Env.get('SLACK_WEBHOOK'),
-      channel: Env.get('SLACK_CHANNEL'),
-      iconUrl: Env.get('SLACK_ICON_URL'),
-      username: Env.get('SLACK_USERNAME'),
+      channel: Env.get('SLACK_CHANNEL', 'general'),
+      iconUrl: Env.get('SLACK_ICON_URL', ':rotating_light:'),
+      username: Env.get('SLACK_USERNAME', '@here'),
     },
     mail: {
       from: Env.get('SMTP_FROM', 'hello@example.com'),
-      to: ['omakei96@gmail.com', 'forumsme6@gmail.com'],
-      subject: 'Error Notification',
+      to: ['hell@example.com', 'info@example.com'],
+      subject: 'Error Notification from ' + Env.get('APP_NAME'),
     },
   },
 }

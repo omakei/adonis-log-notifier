@@ -1,29 +1,18 @@
 //@ts-ignore
 import type { MailConfig } from '@ioc:Adonis/Addons/Mail'
-// import { LogChannels, LogLevel, type LogNotifierConfig } from '@ioc:Omakei/LogNotifier'
 import { Filesystem } from '@poppinss/dev-utils'
 
 const logNotifierConfig = {
-  //@ts-ignore
   allowedChannels: ['slack', 'mail'],
   allowedLogLevel: [50, 30],
   channels: {
     slack: {
-      webHook: 'omakei',
+      webHook: 'https://hooks.slack.com/services/T06GZ/B0PT2/1pAxR',
       channel: 'omakei',
-      iconEmoji: 'omakei',
       iconUrl: 'omakei',
       username: 'omakei',
     },
     mail: {
-      driver: 'smtp',
-      host: 'localhost',
-      port: 587,
-      auth: {
-        type: 'login',
-        user: 'omakei',
-        pass: 'omakei',
-      },
       from: 'hello@dukaspace.com',
       to: ['omakei96@gmail.com', 'forumsme6@gmail.com'],
       subject: 'Error Notification',

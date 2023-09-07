@@ -28,6 +28,7 @@ declare module '@ioc:Omakei/LogNotifier' {
       logLevelLabel(level: number): string
       logLevelColor(level: number): string
       logJSONFormat(): LogStructureContract
+      getConfig(): LogNotifierConfig
       notify(): void
       format(): string | object
     }
