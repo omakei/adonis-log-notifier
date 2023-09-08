@@ -1,6 +1,6 @@
 {
   "name": "@omakei/log-notifier",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Streamline log management. Send application logs to email or Slack effortlessly.",
   "keywords": [
     "typescript",

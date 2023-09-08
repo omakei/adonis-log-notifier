@@ -1,19 +1,127 @@
 import Env from '@ioc:Adonis/Core/Env'
 import { LogNotifierConfig } from '@ioc:Omakei/LogNotifier'
 
+/*
+|--------------------------------------------------------------------------
+| Log Notifier Config
+|--------------------------------------------------------------------------
+*/
 export const logNotifierConfig: LogNotifierConfig = {
+  /*
+  |--------------------------------------------------------------------------
+  | allowedChannels
+  |--------------------------------------------------------------------------
+  |
+  | The `allowedChannels` list constain the list of allowed drivers to send logs 
+  | notification. You can use `mail` or `slack` or both.
+  | 
+  | Note: The list must not be empty, must contain atleast one value.
+  */
   allowedChannels: ['slack', 'mail'],
+
+  /*
+  |--------------------------------------------------------------------------
+  | allowedLogLevel
+  |--------------------------------------------------------------------------
+  |
+  | The `allowedLogLevel` list contains the list of allowed log level to send 
+  | notification. There is the list of value and their discription:
+  |  
+  |  10: 'trace',
+  |  20: 'debug',
+  |  30: 'info',
+  |  40: 'warn',
+  |  50: 'error',
+  |  60: 'fatal'
+  |
+  | Note: The list must not be empty, must contain atleast one value.
+  */
   allowedLogLevel: [50],
+
+  /*
+  |--------------------------------------------------------------------------
+  | channels
+  |--------------------------------------------------------------------------
+  |
+  | The `channels` object constain the list of available implemented channels. 
+  | Currently are slack and mail.
+  |
+  */
   channels: {
     slack: {
+      /*
+      |--------------------------------------------------------------------------
+      | webHook
+      |--------------------------------------------------------------------------
+      |
+      | The `webHook` field contains the slack webhook url.
+      | 
+      | Note: The list must not be empty
+      */
       webHook: Env.get('SLACK_WEBHOOK'),
+
+      /*
+      |--------------------------------------------------------------------------
+      | channel
+      |--------------------------------------------------------------------------
+      |
+      | The `channel` field contains the slack channel to receive notification.
+      | 
+      */
       channel: Env.get('SLACK_CHANNEL', 'general'),
+
+      /*
+      |--------------------------------------------------------------------------
+      | iconUrl
+      |--------------------------------------------------------------------------
+      |
+      | The `iconUrl` field contains the slack iconUrl eg. :computer:.
+      | 
+      */
       iconUrl: Env.get('SLACK_ICON_URL', ':rotating_light:'),
+
+      /*
+      |--------------------------------------------------------------------------
+      | username
+      |--------------------------------------------------------------------------
+      |
+      | The `username` field contains the slack username eg. @here.
+      | 
+      */
       username: Env.get('SLACK_USERNAME', '@here'),
     },
     mail: {
+      /*
+      |--------------------------------------------------------------------------
+      | from
+      |--------------------------------------------------------------------------
+      |
+      | The `from` field contains the sender email.
+      | 
+      | Note: The list must not be empty
+      */
       from: Env.get('SMTP_FROM', 'hello@example.com'),
+
+      /*
+      |--------------------------------------------------------------------------
+      | to
+      |--------------------------------------------------------------------------
+      |
+      | The `to` list contains the list of email to receive log notification.
+      | 
+      | Note: The list must not be empty
+      */
       to: ['hell@example.com', 'info@example.com'],
+
+      /*
+      |--------------------------------------------------------------------------
+      | subject
+      |--------------------------------------------------------------------------
+      |
+      | The `subject` field contains the subject of the email.
+      | 
+      | Note: The list must not be empty
+      */
       subject: 'Error Notification from ' + Env.get('APP_NAME'),
     },
   },
